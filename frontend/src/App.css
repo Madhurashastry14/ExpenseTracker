@@ -1,0 +1,31 @@
+.app {
+  min-height: 100vh;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  background: #5555cb;
+  padding: 0 40px;
+}
+
+.navbar h2 {
+  margin: 0;
+  font-size: 27px;
+}
+
+.navbar-links {
+  margin: 120px;
+  display: flex;
+  gap: 35px;
+  font-size: 17px;
+}
+
+.navbar-links button {
+  border: none;
+  background: transparent;
+  padding: 20px 10px;
+  color: black;
+}
