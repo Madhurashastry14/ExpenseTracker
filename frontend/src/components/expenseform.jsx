@@ -8,7 +8,6 @@ function ExpenseForm() {
   function handleSubmit(event) {
     event.preventDefault();
     const expense = { amount, category, description, date };
-    console.log(expense);
   }
   return (
     <form className="expense-form" onSubmit={handleSubmit}>

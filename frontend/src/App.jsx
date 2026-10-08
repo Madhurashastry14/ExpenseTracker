@@ -1,8 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/navbar";
-import ExpenseForm from "./components/expenseform";
-import ExpenseList from "./components/expenselist";
+import AddExpense from "./pages/addexpense";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Dashboard from "./pages/dashboard";
@@ -14,6 +12,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/add-expense" element={<AddExpense />} />
       </Routes>
     </BrowserRouter>
   );
