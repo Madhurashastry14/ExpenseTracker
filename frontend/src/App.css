@@ -1,3 +1,8 @@
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 200;
+}
+
 .app {
   min-height: 100vh;
 }
@@ -28,4 +33,33 @@
   background: transparent;
   padding: 20px 10px;
   color: black;
+}
+
+.expense-form {
+  width: 700px;
+  margin: 30px;
+}
+
+.expense-form h2 {
+  margin-bottom: 25px;
+}
+
+.expense-form label {
+  display: inline-block;
+  width: 120px;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.expense-form input,
+.expense-form select {
+  width: 500px;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 40px;
+}
+
+.add-expense {
+  margin-left: 200px;
+  padding: 10px 20px;
 }
