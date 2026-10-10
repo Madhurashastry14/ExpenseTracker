@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddExpense from "./pages/addexpense";
 import Login from "./pages/login";
 import Register from "./pages/register";
@@ -8,6 +8,21 @@ import Expenses from "./pages/expenses";
 import "./App.css";
 function App() {
   const [expenses, setExpenses] = useState([]);
+  useEffect(() => {
+    async function fetchExpenses() {
+      try {
+        const response = await fetch("http://localhost:5000/api/expenses");
+        if (!response.ok) {
+          throw new Error("failed to fetch expenses");
+        }
+        const data = await response.json();
+        setExpenses(data);
+      } catch (error) {
+        console.error("Error fetching expenses:", error);
+      }
+    }
+    fetchExpenses();
+  }, []);
   return (
     <BrowserRouter>
       <Routes>

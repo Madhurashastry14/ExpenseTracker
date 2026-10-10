@@ -5,15 +5,33 @@ function ExpenseForm({ setExpenses }) {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const expense = {
-      id: crypto.randomUUID(),
       amount: Number(amount),
       category,
       description,
       date,
     };
+
+    try {
+      const response = await fetch("http://localhost:5000/api/expenses", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(expense),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        alert(data.error || "Failed to save expenses");
+        return;
+      }
+    } catch (error) {
+      console.error("Error saving expense:", error);
+      alert("Unable to connect to the server.");
+    }
     setExpenses((previousExpenses) => [...previousExpenses, expense]);
     setAmount("");
     setCategory("");

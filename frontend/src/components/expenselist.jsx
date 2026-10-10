@@ -8,11 +8,11 @@ function ExpenseList({ expenses }) {
         <span>Amount</span>
       </div>
 
-      {expenses.map((expense) => (
+      {(expenses ?? []).map((expense) => (
         <div className="expense-item" key={expense.id}>
           <span>{expense.description}</span>
           <span>{expense.category}</span>
-          <span>{expense.date}</span>
+          <span>{expense.date?.slice(0, 10)}</span>
           <span>₹{expense.amount}</span>
         </div>
       ))}
