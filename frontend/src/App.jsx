@@ -28,7 +28,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard expenses={expenses} />} />
         <Route
           path="/add-expense"
           element={<AddExpense expenses={expenses} setExpenses={setExpenses} />}

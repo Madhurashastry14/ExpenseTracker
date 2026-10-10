@@ -1,6 +1,36 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/navbar";
-function Dashboard() {
+function Dashboard({ expenses }) {
+  const totalSpent = expenses.reduce((total, expense) => {
+    return total + Number(expense.amount);
+  }, 0);
+
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+
+  const monthlyExpenses = expenses.filter((expense) => {
+    const expenseDate = new Date(expense.date);
+    return (
+      expenseDate.getMonth() === currentMonth &&
+      expenseDate.getFullYear() === currentYear
+    );
+  });
+
+  const monthlyTotal = monthlyExpenses.reduce((total, expense) => {
+    return total + Number(expense.amount);
+  }, 0);
+
+  const categoryTotal = expenses.reduce((total, expense) => {
+    const category = expense.category.trim().toLowerCase();
+    const amount = Number(expense.amount);
+    total[category] = (total[category] || 0) + amount;
+    return total;
+  }, {});
+
+  const recentExpenses = [...expenses]
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 3);
   return (
     <>
       <Navbar />
@@ -18,17 +48,17 @@ function Dashboard() {
         <div className="summary-cards">
           <div className="summary-card">
             <p>Total Spent</p>
-            <h2>₹12,450</h2>
+            <h2>₹{totalSpent.toLocaleString("en-IN")}</h2>
           </div>
 
           <div className="summary-card">
             <p>This Month</p>
-            <h2>₹4,280</h2>
+            <h2>₹{monthlyTotal.toLocaleString("en-IN")}</h2>
           </div>
 
           <div className="summary-card">
             <p>No. of Expenses</p>
-            <h2>24</h2>
+            <h2>{expenses.length}</h2>
           </div>
         </div>
 
@@ -36,53 +66,27 @@ function Dashboard() {
           <div className="category-card">
             <h2>Spending by Category</h2>
 
-            <div className="category-row">
-              <span>Food</span>
-              <strong>₹2,000</strong>
-            </div>
-
-            <div className="category-row">
-              <span>Transport</span>
-              <strong>₹1,200</strong>
-            </div>
-
-            <div className="category-row">
-              <span>Shopping</span>
-              <strong>₹800</strong>
-            </div>
-
-            <div className="category-row">
-              <span>Entertainment</span>
-              <strong>₹280</strong>
-            </div>
+            {Object.entries(categoryTotal).map(([category, amount]) => (
+              <div className="category-row" key={category}>
+                <span>
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </span>
+                <strong>₹{amount.toLocaleString("en-IN")}</strong>
+              </div>
+            ))}
           </div>
 
           <div className="recent-card">
             <h2>Recent Expenses</h2>
-
-            <div className="expense-row">
-              <div>
-                <strong>Lunch</strong>
-                <p>Food</p>
+            {recentExpenses.map((expense) => (
+              <div className="expense-row" key={expense.id}>
+                <div>
+                  <strong>{expense.description}</strong>
+                  <p>{expense.category}</p>
+                </div>
+                <span>₹{Number(expense.amount).toLocaleString("en-IN")}</span>
               </div>
-              <span>₹250</span>
-            </div>
-
-            <div className="expense-row">
-              <div>
-                <strong>Bus</strong>
-                <p>Transport</p>
-              </div>
-              <span>₹40</span>
-            </div>
-
-            <div className="expense-row">
-              <div>
-                <strong>Shopping</strong>
-                <p>Shopping</p>
-              </div>
-              <span>₹900</span>
-            </div>
+            ))}
           </div>
         </div>
       </div>
