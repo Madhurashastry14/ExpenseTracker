@@ -1,5 +1,5 @@
 import { useState } from "react";
-function ExpenseForm() {
+function ExpenseForm({ setExpenses }) {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -7,7 +7,18 @@ function ExpenseForm() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    const expense = { amount, category, description, date };
+    const expense = {
+      id: crypto.randomUUID(),
+      amount: Number(amount),
+      category,
+      description,
+      date,
+    };
+    setExpenses((previousExpenses) => [...previousExpenses, expense]);
+    setAmount("");
+    setCategory("");
+    setDescription("");
+    setDate("");
   }
   return (
     <form className="expense-form" onSubmit={handleSubmit}>

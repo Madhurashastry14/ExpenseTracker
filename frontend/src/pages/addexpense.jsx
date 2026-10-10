@@ -1,10 +1,10 @@
 import ExpenseForm from "../components/expenseform";
 import Navbar from "../components/navbar";
-function AddExpense() {
+function AddExpense({ setExpenses }) {
   return (
     <div>
       <Navbar />
-      <ExpenseForm />
+      <ExpenseForm setExpenses={setExpenses} />
     </div>
   );
 }

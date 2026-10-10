@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/navbar";
 import ExpenseList from "../components/expenselist";
-function Expenses() {
+function Expenses({ expenses }) {
   return (
     <>
       <Navbar />
@@ -15,7 +15,7 @@ function Expenses() {
             + Add Expense
           </Link>
         </div>
-        <ExpenseList />
+        <ExpenseList expenses={expenses} />
       </div>
     </>
   );
