@@ -22,7 +22,7 @@ A full-stack web application to manage personal expenses, track monthly spending
 **1. Clone the repository**
 
 ```bash
-git clone <https://github.com/Madhurashastry14/ExpenseTracker.git>
+git clone https://github.com/Madhurashastry14/ExpenseTracker.git
 cd expense-tracker
 ```
 
