@@ -1,7 +1,7 @@
 const expenseService = require("../services/expenseServices");
 async function getExpenses(req, res) {
   try {
-    const expenses = await expenseService.getAllExpenses();
+    const expenses = await expenseService.getAllExpenses(req.user.id);
     res.status(200).json(expenses);
   } catch (error) {
     console.log("Failed to fetch expenses", error.message);
@@ -30,12 +30,7 @@ async function createExpense(req, res) {
         error: "Valid amount, category, description, and date are required ",
       });
     }
-    const expenses = await expenseService.createExpenses({
-      amount: Number(amount),
-      category: category.trim(),
-      description: description.trim(),
-      date,
-    });
+    const expenses = await expenseService.createExpense(req.body, req.user.id);
     return res.status(201).json(expenses);
   } catch (error) {
     console.log("Failed to create expense:", error.message);

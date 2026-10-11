@@ -1,22 +1,32 @@
 const pool = require("../config/db");
 
-async function getAllExpenses() {
+async function getAllExpenses(userId) {
   const result = await pool.query(
-    "SELECT *FROM expenses ORDER BY date DESC , id DESC",
+    `SELECT *
+     FROM expenses
+     WHERE user_id = $1
+     ORDER BY date DESC, id DESC`,
+    [userId],
   );
+
   return result.rows;
 }
 
-async function createExpenses(expense) {
-  const { amount, description, category, date } = expense;
+async function createExpense(expenseData, userId) {
+  const { amount, category, description, date } = expenseData;
+
   const result = await pool.query(
-    "INSERT INTO expenses (amount,description,category,date) VALUES ($1,$2,$3,$4) RETURNING *",
-    [amount, description, category, date],
+    `INSERT INTO expenses
+       (amount, category, description, date, user_id)
+     VALUES ($1, $2, $3, $4, $5)
+     RETURNING *`,
+    [amount, category, description, date, userId],
   );
+
   return result.rows[0];
 }
 
 module.exports = {
   getAllExpenses,
-  createExpenses,
+  createExpense,
 };

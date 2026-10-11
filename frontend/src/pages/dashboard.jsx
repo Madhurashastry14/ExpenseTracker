@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/navbar";
+import { logoutUser } from "../api";
+
 function Dashboard({ expenses }) {
   const totalSpent = expenses.reduce((total, expense) => {
     return total + Number(expense.amount);
@@ -43,6 +45,10 @@ function Dashboard({ expenses }) {
           <Link to="/add-expense" className="add-expense-btn">
             + Add Expense
           </Link>
+
+          <button className="logout-btn" onClick={logoutUser}>
+            <span>↪</span> Logout
+          </button>
         </div>
 
         <div className="summary-cards">

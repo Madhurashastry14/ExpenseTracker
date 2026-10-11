@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-function Login() {
+function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -30,8 +30,7 @@ function Login() {
         return;
       }
       sessionStorage.setItem("accessToken", data.accessToken);
-      sessionStorage.setItem("user", JSON.stringify(data.user));
-
+      onLogin();
       navigate("/dashboard");
     } catch (error) {
       setError("Unable to connect to the server.");

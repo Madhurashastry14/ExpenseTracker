@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiFetch } from "../api";
 function ExpenseForm({ setExpenses }) {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
@@ -15,10 +16,10 @@ function ExpenseForm({ setExpenses }) {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/expenses", {
+      const response = await apiFetch("/api/expenses", {
         method: "POST",
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(expense),
       });
