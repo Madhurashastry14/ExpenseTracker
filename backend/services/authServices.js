@@ -71,13 +71,26 @@ async function refreshAccessToken(refreshToken) {
     throw error;
   }
 
+  const newRefreshToken = await tokenService.generateRefreshToken();
+
+  const rotated = await tokenService.rotateRefreshToken(
+    refreshToken,
+    tokenRecord.user_id,
+    newRefreshToken,
+  );
+
+  if (!rotated) {
+    const error = new Error("Invalid or expired refresh token");
+    error.statusCode = 401;
+    throw error;
+  }
   const accessToken = jwt.sign(
     { userId: tokenRecord.user_id },
     process.env.JWT_SECRET,
     { expiresIn: "15m" },
   );
 
-  return accessToken;
+  return { accessToken, refreshToken: newRefreshToken };
 }
 
 module.exports = {

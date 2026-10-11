@@ -1,4 +1,6 @@
 const authService = require("../services/authServices");
+const tokenService = require("./tokenService");
+
 async function register(req, res) {
   try {
     const { name, email, password } = req.body;
@@ -94,9 +96,18 @@ async function refresh(req, res) {
       });
     }
 
-    const accessToken = await authService.refreshAccessToken(refreshToken);
+    const result = await authService.refreshAccessToken(refreshToken);
+    res.cookie("refreshToken", result.refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/api/auth",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
-    return res.status(200).json({ accessToken });
+    return res.status(200).json({
+      accessToken: result.accessToken,
+    });
   } catch (error) {
     if (error.statusCode === 401) {
       res.clearCookie("refreshToken", {
@@ -119,4 +130,26 @@ async function refresh(req, res) {
   }
 }
 
-module.exports = { register, login, refresh };
+async function logout(req, res) {
+  try {
+    const refreshToken = req.cookies?.refreshToken;
+    if (refreshToken) {
+      await tokenService.revokeRefreshToken(refreshToken);
+    }
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/api/auth",
+    });
+
+    return res.status(200).json({
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    console.error("Logout failed:", error.message);
+    return res.status(500).json({ error: "Unable to log out" });
+  }
+}
+
+module.exports = { register, login, refresh, logout };
