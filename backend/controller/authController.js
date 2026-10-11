@@ -1,5 +1,5 @@
 const authService = require("../services/authServices");
-const tokenService = require("./tokenService");
+const tokenService = require("../services/tokenService");
 
 async function register(req, res) {
   try {
@@ -59,7 +59,7 @@ async function login(req, res) {
       email.trim().toLowerCase(),
       password,
     );
-    res.Cookie("refreshToken", (await result).refreshToken, {
+    res.cookie("refreshToken", (await result).refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

@@ -26,7 +26,8 @@ async function registerUser(name, email, password) {
 
 async function loginUser(email, password) {
   const result = await pool.query(
-    "SELECT id,name,email,password_hash FROM users WHERE email=$1"[email],
+    "SELECT id,name,email,password_hash FROM users WHERE email=$1",
+    [email],
   );
 
   if (result.rows.length === 0) {
