@@ -5,6 +5,8 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Dashboard from "./pages/dashboard";
 import Expenses from "./pages/expenses";
+import Landing from "./pages/landing";
+
 import { apiFetch } from "./api";
 import "./App.css";
 
@@ -52,6 +54,7 @@ function App() {
           element={<AddExpense expenses={expenses} setExpenses={setExpenses} />}
         />
         <Route path="/expenses" element={<Expenses expenses={expenses} />} />
+        <Route path="/" element={<Landing />} />
       </Routes>
     </BrowserRouter>
   );
