@@ -56,10 +56,9 @@ async function rotateRefreshToken(oldToken, userId, newToken) {
     await client.query("BEGIN");
     const oldHash = hashRefreshToken(oldToken);
     const newHash = hashRefreshToken(newToken);
-    const result = client.query(
-      `DELETE FROM refresh_tokens WHERE token_hash=$1 AND user_id=$2 AND expires_at>NOW() RETURNING is`[
-        (oldHash, userId)
-      ],
+    const result = await client.query(
+      `DELETE FROM refresh_tokens WHERE token_hash=$1 AND user_id=$2 AND expires_at>NOW() RETURNING id`,
+      [oldHash, userId],
     );
 
     if (result.rows[0] === 0) {
